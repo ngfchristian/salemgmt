@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   // apiEndpoint: 'https://poptalentapi.herokuapp.com' // [live]
-  // apiEndpoint: 'https://bbaunapi.herokuapp.com' // ,[live]
-  apiEndpoint: 'http://192.168.43.135:4000' // [local 
+  apiEndpoint: 'https://bbaunapi.herokuapp.com' // ,[live]
+  // apiEndpoint: 'http://192.168.43.135:4000' // [local
 };
 
 /*
