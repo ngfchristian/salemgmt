@@ -76,7 +76,7 @@
                                         <th>Total</th>
                                       </tr>
                                     </thead>
-                                    <tbody *ngFor="let product of saleproductList['productlist']; index as i; trackBy: trackByFn">
+                                    <tbody *ngFor="let product of saleproductList['productlist']; index as i;">
                                       <tr>
                                         <td>{{i}}</td>
                                         <td>{{product.name}}</td>
@@ -116,8 +116,8 @@
                                     <blockquote class="blockquote blockquote-primary">
                                     <ul class="list-ticked">
                                       <li class="text-small">
-                                        <strong  *ngIf="salediscount==0">T. Discount: {{price(totalcdiscount())}}</strong>
-                                        <strong  *ngIf="salediscount!=0">Discount: {{price(discount)}}</strong>
+                                        <!-- <strong  *ngIf="salediscount==0">T. Discount: {{price(totalcdiscount())}}</strong>
+                                        <strong  *ngIf="salediscount!=0">Discount: {{price(discount)}}</strong> -->
                                       </li>
                                       <li class="text-small" *ngIf="saletaxe==1"><strong>Taxe: {{price(taxe)}}</strong></li>
                                       <li class="text-small"><strong>Grand Total: {{price(valuechangeof())}}</strong></li>

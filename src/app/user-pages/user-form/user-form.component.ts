@@ -52,7 +52,7 @@ export class UserFormComponent implements OnInit {
   }
 
 
-  onSubmit($event) {
+  onSubmit() {
     this.submitted = true;
     const newuser = {
       userName: this.formuserdetail.username.value,

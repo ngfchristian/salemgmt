@@ -85,7 +85,7 @@
                   [(ngModel)]= "SelectedItem" (ngModelChange)="selectUnit($event)" [ngModelOptions]="{standalone: true}"
                   name="unit">
                       <option value="default" disabled>--select unit--</option>
-                      <option *ngFor="let item of unitlist; index as i; trackBy: trackByFn"
+                      <option *ngFor="let item of unitlist; index as i;"
                       [ngValue]="item">
                         {{item.name}}
                       </option>

@@ -47,7 +47,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr  *ngFor="let product of productlist; index as i; trackBy: trackByFn">
+                <tr  *ngFor="let product of productlist; index as i;">
                   <td>
                     {{i+1}}
                   </td>
@@ -68,7 +68,7 @@
                   <td class="hoverhand bg-primary">
                     {{price(product.selling_price)}}
                     <input type="number" class="form-control form-control-sm quantity" [(ngModel)]="product['selling_price']" 
-                        #salingprice="ngModel" name="salingprice" (change)="valuechangeTable($event, selling_price, i, salingprice)"
+                        #salingprice="ngModel" name="salingprice" (change)="valuechangeTable($event, 'selling_price', i, salingprice)"
                     />
                   </td>
                   <td>

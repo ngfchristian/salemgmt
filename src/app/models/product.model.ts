@@ -12,7 +12,8 @@ export interface IProduct {
     sale_price: number;
     quantity: number;
     imgurl: string;
-    datecreate: Date;
+    // datecreate: Date;
+    datecreate: string;
     datemodified: Date;
     usercreate: string; // [it should login, and here our login is the email]
     usermodified: string; // [it should login, and here our login is the email]

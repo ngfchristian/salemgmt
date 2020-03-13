@@ -21,7 +21,8 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [SaleListComponent,
+  declarations: [
+  SaleListComponent,
   SaleSettingComponent,
   SaleDetailComponent,
   SaleTosavearticleComponent,

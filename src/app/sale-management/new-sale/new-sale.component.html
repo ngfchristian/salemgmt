@@ -86,7 +86,7 @@
                                     </th>
                                   </tr>
                                 </thead>
-                                <tbody *ngFor="let product of saleproductList; index as i; trackBy: trackByFn">
+                                <tbody *ngFor="let product of saleproductList; index as i;">
                                   <tr class="text-small" ><!--[formGroup]="product" styleTHead(i) -->
                                     <td>
                                       {{i}}
@@ -364,7 +364,7 @@
                                           <th>Total</th>
                                         </tr>
                                       </thead>
-                                      <tbody *ngFor="let product of saleproductList; index as i; trackBy: trackByFn">
+                                      <tbody *ngFor="let product of saleproductList; index as i;">
                                         <tr>
                                           <td>{{i}}</td>
                                           <td>{{product.name}}</td>
@@ -459,12 +459,12 @@
               [maxSize]="7"
               [rotate]="true"
               [boundaryLinks]="true"
-              (pageChange)="loadPage($event)"
+              
               aria-label="Default pagination" 
               class="pagination-separated pagination-danger">
-              </ngb-pagination>
+              </ngb-pagination><!-- (pageChange)="loadPage($event)" -->
             </div>
-            <div class="col-md-4 mx-0" *ngFor="let product of productlist; index as i; trackBy: trackByFn"
+            <div class="col-md-4 mx-0" *ngFor="let product of productlist; index as i;"
             >   <!--  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize -->           
                 <blockquote class="blockquote blockquote-primary px-1 mx-0 py-0">
                     <img src="../../../assets/images/dashboard/img_2.jpg" class="mb-1 mw-100 w-100 rounded" alt="image">

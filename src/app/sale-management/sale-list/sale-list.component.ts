@@ -83,10 +83,6 @@ export class SaleListComponent implements OnInit {
     this.selectedsale = selected;
     this.cashierdetail(selected['usercreate']);
     this.modalService.open( exampleModalContent, { size : 'lg' } );
-
-    // console.log(`selected client ${this.selectedsale['client']['cname']['fname']},
-    // selected client articles list ${this.selectedsale['productlist'].length},
-    // quty ${this.selectedsale['productlist'][0]['quantity']}`);
   }
 
   price(value: number): any {

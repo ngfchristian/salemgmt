@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  // apiEndpoint: 'https://poptalentapi.herokuapp.com' // [live] 
+  // apiEndpoint: 'https://poptalentapi.herokuapp.com' // [live]
   // apiEndpoint: 'https://bbaunapi.herokuapp.com' // ,[live]
-  apiEndpoint: 'http://192.168.43.135:4000' //[local 
+  apiEndpoint: 'http://192.168.43.135:4000' // [local 
 };
- 
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

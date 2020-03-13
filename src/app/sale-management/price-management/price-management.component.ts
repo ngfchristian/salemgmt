@@ -126,7 +126,7 @@ export class PriceManagementComponent implements OnInit {
               }
               this.alertService.error(message);
               this.errordisplay = message;
-              this.loading = false;
+              // this.loading = false;
             });
   }
 

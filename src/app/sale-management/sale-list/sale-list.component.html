@@ -52,7 +52,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr  *ngFor="let sale of saleproductList; index as i; trackBy: trackByFn">
+              <tr  *ngFor="let sale of saleproductList; index as i;">
                 <td>
                   {{i+1}}
                 </td>
@@ -133,7 +133,7 @@
                     Date: {{parseDate(selectedsale['datesale'])| date:'dd/MM/yyyy'}}
                   </div>
                   <div class="row">                                          
-                    Time:{{parseDate(selectedsale['datecreate'])| date:'hh:mm:ss a'}}
+                    Time:{{parseDate(selectedsale['datesale'])| date:'hh:mm:ss a'}}
                   </div>
                   <div class="row">                                          
                     <span class="text-left text-small">Cashier: {{cashier}}</span>
@@ -161,7 +161,7 @@
                     <th>Total  </th>
                   </tr>
                 </thead>
-                <tbody *ngFor="let product of selectedsale['productlist']; index as i; trackBy: trackByFn">
+                <tbody *ngFor="let product of selectedsale['productlist']; index as i;">
                   <tr>
                     <td>{{i}}</td>
                     <td>{{product['product']}}</td>
