@@ -1,0 +1,112 @@
+<div class="page-header">
+    <h3 class="page-title">
+      Manage data structure| 
+      <a class="" routerLink="product-detail" routerLinkActive="active" #register="routerLinkActive"> 
+        <i class="mdi mdi-database-plus"></i>
+      </a>
+    </h3>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:;">Data management</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Products</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">        
+    <div class="col-lg-12 grid-margin stretch-card"  *ngIf="productlist && productlist.length; else noData" > <!--check if the list is >1 to display the panel if not, do the else-->
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Liste of products</h4>
+          <!-- <p class="card-description">
+            Add class <code>.table-bordered</code>
+          </p> -->
+          <div class="table-responsive pt-3">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>
+                    #
+                  </th>
+                  <th>
+                    Ref.
+                  </th>
+                  <th>
+                    Product name
+                  </th>
+                  <th>
+                    Unit
+                  </th>
+                  <th>
+                    Price
+                  </th>
+                  <th>
+                    
+                  </th>
+                  <th>
+                    
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  *ngFor="let product of productlist; index as i; trackBy: trackByFn">
+                  <td>
+                    {{i+1}}
+                  </td>
+                  <td>
+                    {{product.reference}}
+                  </td>
+                  <td>
+                    {{product.name}}
+                  </td> 
+                  <td>
+                    {{product['unitproduct'][0].name}} <code>({{product['unitproduct'][0].abs}})</code>
+                  </td>                  
+                  <td>
+                    {{product.price}} GHS
+                  </td>
+                  <td>
+                    <a class="nav-link" [routerLink]="['product-detail', product['_id']]" routerLinkActive="active" #register="routerLinkActive"> 
+                        <i class="mdi mdi-border-color"></i>
+                      </a>
+                  </td>
+                  <td>
+                    <!-- <a class="nav-link" routerLinkActive="active" #register="routerLinkActive">
+                        <i class="remove mdi mdi-close" (click)="removeTodoItem(product['_id'])"></i>
+                      </a> -->
+                      <div class="list-wrapper"><!--  pt-2 -->
+                        <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
+                          <li [ngClass]="{'completed' : true }">
+                            <i class="remove mdi mdi-close" (click)="openSmallModal(smallModalContent)"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <ng-template #smallModalContent let-modal class="modal fade" aria-labelledby="exampleModalLabel-3">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel-3">Product deletion</h5>
+                            <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Are you sure you want to delete the product {{product.name}}?.</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-success" (click)="removeTodoItem(product['_id'])">Submit</button>
+                            <button type="button" class="btn btn-light" (click)="modal.close()">Cancel</button>
+                          </div>
+                        </div>
+                      </ng-template>
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noData> <!-- to display if no data present in the db -->
+      <img src="../../../assets/tinymce/skins/lightgray/img/loader.gif">
+  </ng-template>
+  </div>

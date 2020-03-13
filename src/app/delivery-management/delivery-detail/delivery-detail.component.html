@@ -1,0 +1,311 @@
+<div class="page-header">
+    <h3 class="page-title">
+      <span *ngIf="id">Delivery detail: {{id}}</span>
+      <span *ngIf="!id">New Delivery: </span>
+      
+    </h3>
+    <nav aria-label="breadcrumb" role="navigation">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:;">Delivery-management</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Delivery</a></li>
+        <li class="breadcrumb-item active" aria-current="page">delivery-detail</li>
+      </ol>
+    </nav>
+
+  </div>
+  <div class="form-group" *ngIf="!id">
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" (change)="changeToupload($event)" ><!-- checked -->
+        Rather upload?
+        <i class="input-helper"></i>
+      </label>
+    </div>
+</div>
+  <div class="col-12 grid-margin stretch-card" *ngIf="diplayupload">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Upload the delivery</h4>
+        <form [formGroup]="deliveryuploadForm" class="form-inline">
+          <div class="form-group">
+            <label for="fileref">File upload</label>
+            <input type="file" name="img[]" class="file-upload-default">
+            <div class="input-group col-xs-12">
+              <input type="text" formControlName="fileupoad" 
+              name="fileupoad" class="form-control file-upload-info"
+              id="fileref" placeholder="dd/mm/yyyy" disabled placeholder="Upload delivery"
+              [ngClass]="{ 'is-invalid': submitted && formproductdetail.fileupoad.errors }"
+              >
+              <div *ngIf="submitted && formproductdetail.fileupoad.errors" class="invalid-feedback">
+                <div *ngIf="formproductdetail.fileupoad.errors.required">
+                  {{requireddeliverydate}}                               
+                </div>
+              </div>
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
+              </span>
+            </div>
+          </div>
+
+          
+          
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Horizontal Two column</h4>
+            <form [formGroup]="deliverydetailForm" (ngSubmit)="onSubmit($event)" class="forms-sample">
+            <!-- <p class="card-description">
+                Personal info
+            </p> -->
+
+            <div class="row" *ngIf="id">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="ref">Delivery Reference</label>
+                    <div class="col-sm-9">
+                      <input type="text" formControlName="reference"
+                      name="ref" class="form-control"
+                      id="refuser" placeholder="Product reference"/>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="userref">Entery User</label>
+                    <div class="col-sm-9">
+                      <input type="text" formControlName="usercreate"
+                      name="usercreate" class="form-control"
+                      id="userref" placeholder="User who entered the delivery"
+                      />
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="dateref">Date Delivery</label>
+                    <div class="col-sm-9"><!-- ngbDatepicker -->
+                      <input type="date"  formControlName="datedelivery" 
+                      name="datedelivery" class="form-control" 
+                      id="dateref" placeholder="dd/mm/yyyy"
+                      [ngClass]="{ 'is-invalid': submitted && formproductdetail.datedelivery.errors }"
+                      />
+                      <div *ngIf="submitted && formproductdetail.datedelivery.errors" class="invalid-feedback">
+                        <div *ngIf="formproductdetail.datedelivery.errors.required">
+                          {{requireddeliverydate}}                               
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="cname">Client Name</label>
+                    <div class="col-sm-9">
+                      <input type="text" formControlName="clientname"
+                      name="clientname" class="form-control"
+                      id="cname" placeholder="Client Name"
+                      [ngClass]="{ 'is-invalid': submitted && formproductdetail.clientname.errors }"
+                       />
+                       <div *ngIf="submitted && formproductdetail.clientname.errors" class="invalid-feedback">
+                        <div *ngIf="formproductdetail.clientname.errors.required">
+                          {{requiredclientname}}                               
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="agent">Agent</label>
+                    <div class="col-sm-9">
+                      <input type="text" formControlName="agentname"
+                      name="agentname" class="form-control"
+                      id="agent" placeholder="Agent Name"
+                      [ngClass]="{ 'is-invalid': submitted && formproductdetail.agentname.errors }"
+                       />
+                       <div *ngIf="submitted && formproductdetail.agentname.errors" class="invalid-feedback">
+                        <div *ngIf="formproductdetail.agentname.errors.required">
+                          {{requiredagentname}}                               
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="descref">Description</label>
+                    <div class="col-sm-9">
+                      <textarea formControlName="description"
+                      name="description" class="form-control"
+                      id="descref" placeholder="Delivery description" rows="4"
+                      [ngClass]="{ 'is-invalid': submitted && formproductdetail.description.errors }"
+                      ></textarea>
+                      <div *ngIf="submitted && formproductdetail.description.errors" class="invalid-feedback">
+                        <div *ngIf="formproductdetail.description.errors.required">
+                          {{requireddescription}}                               
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>           
+            </div>
+            <hr class="mr-2">
+    <!-- liste of product in the delivery [view] starts -->
+    <div class="row" *ngIf="id">
+    <div class="col-lg-12 stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-description">
+            Detail of the delivery <code>.table-{{ '{' }}color{{ '}' }}</code>
+          </p>
+          <div class="table-responsive pt-3">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>
+                    #
+                  </th>
+                  <th>
+                    Ref#
+                  </th>                  
+                  <th>
+                    Product
+                  </th>
+                  <th>
+                    Unit
+                  </th>
+                  <th>
+                    Quantity
+                  </th>
+                  <th>
+                    Delivery price
+                  </th>
+                  <th>
+                    Amount
+                  </th>
+                  <!-- <th>
+                    Deadline
+                  </th> -->
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr class="" *ngFor="let delivery of detail['productlist']; index as i; trackBy: trackByFn">
+                  <td>
+                    {{i}}
+                  </td>
+                  <td>
+                    {{delivery['reference']}}
+                  </td>
+                  <td>
+                    {{delivery['product']}}
+                  </td>
+                  <td>
+                    {{delivery['unit']}}
+                  </td>
+                  <td>
+                    {{delivery['quantity']}}
+                  </td>
+                  <td>
+                    {{price(delivery['delivery_price'])}}
+                  </td>
+                  <td>
+                   {{ getAmount(delivery) }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- end list of product in the delivery [view] -->
+
+    <!-- liste of product in the delivery [Creation] starts -->
+    <div class="row" *ngIf="!id">
+      <div class="col-lg-12 stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <p class="card-description">
+              Detail of the delivery <code>.liste of products</code>
+            </p>
+            <app-tosave-articlelist
+              (productListUpdated)= "onProductListChanged($event)"
+            ></app-tosave-articlelist
+              >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end list of product in the delivery [Creation] --->
+
+    <br class="mr-2">
+
+
+
+            <button type="submit" class="btn btn-gradient-primary mr-2" *ngIf="!id"> Save delivery</button>
+            <button class="btn btn-gradient-primary mr-2 mdi mdi-printer" (click)="Cancel()"
+            *ngIf="id"
+            > Print</button> 
+
+            <button class="btn btn-info" (click)="Cancel()">Cancel</button>
+            <div *ngIf="id" class="invalid-feedback">
+              {{errordisplay}}
+              <div *ngIf="errordisplay">
+                {{errordisplay}}                               
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <!-- <h4 class="card-title">Basic form elements</h4>
+          <p class="card-description">
+            Basic form elements
+          </p> -->
+         
+          <form [formGroup]="deliverydetailForm" (ngSubmit)="onSaveEdit()" class="forms-sample">
+            
+            
+            
+            <!-- <button type="submit" class="btn btn-gradient-primary mr-2" type="submit" *ngIf="!id"> Add product</button>
+            <button type="submit" class="btn btn-gradient-primary mr-2" type="submit"
+            *ngIf="id"
+            > Save</button>
+
+            <button class="btn btn-light" (click)="Cancel()">Cancel</button>
+            <div *ngIf="id" class="invalid-feedback">
+              {{errordisplay}}
+              <div *ngIf="errordisplay">
+                {{errordisplay}}                               
+              </div>
+            </div> -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

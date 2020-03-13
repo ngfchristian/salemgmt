@@ -1,0 +1,105 @@
+<div class="page-header">
+    <h3 class="page-title">
+      Manage sales| 
+      <a routerLink="newsale" routerLinkActive="active" #register="routerLinkActive"> 
+        <i class="mdi mdi-database-plus"  ngbTooltip="Add new sale"></i>
+      </a><!-- class="" placement="top" -->
+    </h3>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:;">Sale management</a></li>
+        <li class="breadcrumb-item active" aria-current="page">pricing</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">        
+    <div class="col-lg-12 grid-margin stretch-card"  *ngIf="productlist && productlist.length; else noData" > <!--check if the list is >1 to display the panel if not, do the else-->
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Liste of products</h4>
+          <div class="table-responsive pt-3">
+            <table class="table table-hover table-bordered"><!-- table-striped -->
+              <thead>
+                <tr>
+                  <th>
+                    #
+                  </th>
+                  <!-- <th>
+                    Ref.
+                  </th> -->
+                  <th>
+                   Product Name
+                  </th>
+                  <th>
+                    Buying Unit
+                  </th>
+                  <th>
+                    Selling Unit
+                  </th>
+                  <th>
+                    Buying price
+                  </th>
+                  <th>
+                    Selling price                   
+                  </th>
+                  <th>                  
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  *ngFor="let product of productlist; index as i; trackBy: trackByFn">
+                  <td>
+                    {{i+1}}
+                  </td>
+                  <td>
+                    {{product.name}}
+                  </td>
+                  <td>
+                    {{product['unitproduct'][0].name}} <code>({{product['unitproduct'][0].abs}})</code>
+                    <!-- {{parseDate(sale.datesale)| date:'dd/MM/yyyy'}} -->
+                  </td>
+                  <td>
+                    {{product['unitproduct'][0].name}} <code>({{product['unitproduct'][0].abs}})</code>
+                  </td>
+                  <td>
+                    <!-- {{product['delivery_price'][0]['price']}} GHS -->
+                    {{price(product['delivery_price'])}}
+                  </td>
+                  <td class="hoverhand bg-primary">
+                    {{price(product.selling_price)}}
+                    <input type="number" class="form-control form-control-sm quantity" [(ngModel)]="product['selling_price']" 
+                        #salingprice="ngModel" name="salingprice" (change)="valuechangeTable($event, selling_price, i, salingprice)"
+                    />
+                  </td>
+                  <td>
+                      <div class="list-wrapper hoverhand"><!-- pt-2  -->
+                        <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
+                          <li [ngClass]="{'completed' : true }">
+                            <!-- <span *ngIf="!diff(product,selling_price)"> -->
+                                <i class="remove mdi mdi-border-color" (click)="valuesave(product)"
+                                ></i>
+                            <!-- </span>
+                            <span *ngIf="diff(product,selling_price)">
+                                <i class="remove mdi mdi-fridge-filled-top" (click)="valuesave(product)"
+                                ></i>     
+                            </span> -->
+                          </li>
+                        </ul>
+                      </div>
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+  
+  
+  
+  
+        </div>
+      </div>
+    </div>
+    <ng-template #noData> <!-- to display if no data present in the db -->
+      <img src="../../../assets/tinymce/skins/lightgray/img/loader.gif">
+  </ng-template>
+  </div>

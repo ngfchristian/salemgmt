@@ -1,0 +1,123 @@
+<div class="page-header">
+    <h3 class="page-title">
+      <span *ngIf="id">Product detail: {{id}}</span>
+      <span *ngIf="!id">Create new Product: </span>
+      
+    </h3>
+    <nav aria-label="breadcrumb" role="navigation">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:;">Data-management</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Products</a></li>
+        <li class="breadcrumb-item active" aria-current="page">product-detail</li>
+      </ol>
+    </nav>
+
+  </div>
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <!-- <h4 class="card-title">Basic form elements</h4>
+          <p class="card-description">
+            Basic form elements
+          </p> -->
+         
+          <form [formGroup]="productdetailForm" class="forms-sample">
+            <div *ngIf="!id">
+                <div class="form-group">
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" (change)="changeToupload($event)" ><!-- checked -->
+                      Rather upload?
+                      <i class="input-helper"></i>
+                    </label>
+
+                    
+                  </div>
+                </div>
+
+                <div class="form-group" *ngIf="diplayupload">
+                  <label>File upload</label>
+                  <input type="file" name="img[]" class="file-upload-default">
+                  <div class="input-group col-xs-12">
+                    <input type="text" class="form-control file-upload-info" disabled placeholder="Upload product">
+                    <span class="input-group-append">
+                      <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <div class="form-group">
+              <label for="exampleInputName1">Product Name</label>
+              <input type="text" formControlName="productname" 
+              name="productname" class="form-control" 
+              id="exampleInputName1" placeholder="Product Name"
+              [ngClass]="{ 'is-invalid': submitted && formproductdetail.productname.errors }"
+              >
+
+            <div *ngIf="submitted && formproductdetail.productname.errors" class="invalid-feedback">
+              <div *ngIf="formproductdetail.productname.errors.required">
+                {{requiredproductname}}                               
+              </div>
+            </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="exampleInputCity1">Reference</label>
+              <input type="text" formControlName="reference"
+              name="reference" class="form-control" 
+              id="exampleInputCity1" placeholder="Product reference">
+            </div>
+
+          <!--   <div class="form-group">
+              <label for="unit">Unit</label>
+              <input type="text" formControlName="reference"
+              name="unit" class="form-control" 
+              id="unit" placeholder="Product unit">
+
+              
+            </div> -->
+
+            <div class="form-group">       
+              <label for="unitone" class="">Unit:</label><!-- col-sm-3  col-form-label-->
+              <!-- <div class="col-sm-9"> -->
+                  <select class="form-control form-control-sm todo-list-input form_input m-1" id="unitone"
+                  [(ngModel)]= "SelectedItem" (ngModelChange)="selectUnit($event)" [ngModelOptions]="{standalone: true}"
+                  name="unit">
+                      <option value="default" disabled>--select unit--</option>
+                      <option *ngFor="let item of unitlist; index as i; trackBy: trackByFn"
+                      [ngValue]="item">
+                        {{item.name}}
+                      </option>
+                  </select>
+              <!-- </div>         -->
+            </div>
+
+            <div class="form-group">
+              <label for="exampleTextarea1">Description</label>
+              <textarea formControlName="description"
+              name="description" class="form-control"
+               id="exampleTextarea1" placeholder="Product Description" rows="4"></textarea>
+
+              
+            </div>
+            <!-- <button type="submit" class="btn btn-gradient-primary mr-2" type="submit" *ngIf="!id"> Add product</button> -->
+            <button class="btn btn-gradient-primary mr-2" (click) = "onSubmit()" *ngIf="!id"> Add product</button>
+            <button class="btn btn-gradient-primary mr-2" (click) = "onSaveEdit()" *ngIf="id"> Save</button>
+            
+            <!-- <span> 
+              <button [disabled]="loading"  class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit">SIGN IN</button>
+              <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />                            
+          </span> -->
+            <button class="btn btn-light" (click)="Cancel()">Cancel</button>
+            <div *ngIf="id" class="invalid-feedback">
+              {{errordisplay}}
+              <div *ngIf="errordisplay">
+                {{errordisplay}}                               
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

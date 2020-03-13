@@ -1,0 +1,239 @@
+<div class="page-header">
+  <h3 class="page-title">
+    Manage sales| 
+    <a class="" placement="bottom" ngbTooltip="Add new sale" 
+    routerLink="newsale" routerLinkActive="active" #register="routerLinkActive"> 
+      <i class="mdi mdi-database-plus"></i>
+    </a>
+  </h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">Sale management</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Sales</li>
+    </ol>
+  </nav>
+</div>
+<div class="row">        
+  <div class="col-lg-12 grid-margin stretch-card"  *ngIf="saleproductList && saleproductList.length; else noData" > <!--check if the list is >1 to display the panel if not, do the else-->
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Liste of sales</h4>
+        <!-- <p class="card-description">
+          Add class <code>.table-bordered</code>
+        </p> -->
+        <div class="table-responsive pt-3">
+          <table class="table table-striped table-bordered"><!--  -->
+            <thead>
+              <tr>
+                <th>
+                  #
+                </th>
+                <th>
+                  Reference
+                </th>
+                <th><!-- Modal starts -->
+
+                 
+                 Date sale
+                </th>
+                <th>
+                  Client
+                </th>
+                <th>
+                  Nbr of products
+                </th>
+                <th>
+                  Amount
+                </th>
+                <th>                  
+                </th>
+                <!-- <th>                  
+                </th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr  *ngFor="let sale of saleproductList; index as i; trackBy: trackByFn">
+                <td>
+                  {{i+1}}
+                </td>
+                <td>
+                  {{sale.reference}}
+                </td>
+                <td>
+                  {{parseDate(sale.datesale)| date:'dd/MM/yyyy'}}
+                </td>
+                <td>
+                  {{sale.client.cname.fname}} {{sale.client.cname.lname}}
+                </td>
+                <td>
+                  {{sale.productlist.length}} 
+                </td>
+                <td>
+                  {{getAmount2(sale.productlist)}} 
+                </td>
+                <td>
+                    <span class="hoverhand">
+                      <i class="mdi mdi-border-color" (click)="openModal(exampleModalContent, sale)"></i>
+                    </span>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <ng-template #noData> <!-- to display if no data present in the db -->
+    <img src="../../../assets/tinymce/skins/lightgray/img/loader.gif">
+</ng-template>
+</div>
+
+<!-- Modal starts view -->
+
+<ng-template class="modal fade" #exampleModalContent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel"></h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title text-center small">St. Joseph Hardware Store</h4>
+            <h4 class="card-title text-center small">Receipt Generated</h4>
+            <div class="row">
+              <div class="col-sm-2">                  
+                <span class="brand-logo-mini"><img src="../../../assets/images/logo-mini.svg" alt="logo"/>
+                </span>
+              </div>                
+              <div class="col-sm-6">
+                  <div class="row small"> 
+                    Payment detail:                                         
+                  </div>
+                  <div class="row  small">
+                    Client: {{selectedsale['client']['cname']['fname']}}                                        
+                  </div>
+                  <div class="row  small">                                          
+                    Payment type: Cash
+                  </div>                                          
+              </div>
+              <div class="col-sm-4  small">
+                  <div class="row"> 
+                    Invoice Number:                                         
+                  </div>
+                  <div class="row">
+                    Date: {{parseDate(selectedsale['datesale'])| date:'dd/MM/yyyy'}}
+                  </div>
+                  <div class="row">                                          
+                    Time:{{parseDate(selectedsale['datecreate'])| date:'hh:mm:ss a'}}
+                  </div>
+                  <div class="row">                                          
+                    <span class="text-left text-small">Cashier: {{cashier}}</span>
+                  </div>
+                  <div class="row">
+                    <span class="text-left text-small">Tel:{{tel}}</span>
+                  </div>
+                  
+              </div>
+            </div>
+            <!-- <p class="card-description"> -->
+            <!-- Add class <code>.table-hover</code> -->
+            <!-- </p> -->
+            <div class="table-responsive  small">
+              <table class="table table-hover  small">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th *ngIf="salediscount==0">Discount</th>
+                    <!-- <th>Taxe</th> -->
+                    <th>Total  </th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let product of selectedsale['productlist']; index as i; trackBy: trackByFn">
+                  <tr>
+                    <td>{{i}}</td>
+                    <td>{{product['product']}}</td>
+                    <td class="text-primary"> {{product['quantity']}}</td>
+                    <td>{{product['unit']}}</td> <!-- unit -->
+                    <td class="text-primary">{{product['sale_price']}}</td><!-- delivery_price -->
+                    <td class="text-primary" *ngIf="salediscount==0">{{product['discountline']}}</td>
+                    <td class="text-primary">{{ getAmount(product) }}</td> <!-- total -->
+                  </tr>
+                </tbody>
+               
+              <tfoot class="thead-dark">
+                <tr>
+                  <th>Total</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th *ngIf="salediscount==0"></th>
+                  <th>{{getAmount2(selectedsale['productlist'])}}</th>
+                </tr>
+              </tfoot>
+              </table>
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <div class="row small">
+              <div class="col-sm-6"> 
+                <p class="text-left text-small"><strong>Amount in words: {{currencysymbol}} {{convertNumberToWords(valuechangeof(selectedsale['productlist']))}}</strong></p>
+                <div class="row">
+                  <div class="col"><hr></div>
+                  <div class="col-auto"></div>    
+                  <div class="col"><hr></div>    
+                </div>
+              </div>
+              <div class="col-sm-6"> 
+                <blockquote class="blockquote blockquote-primary">
+                  <ul class="list-ticked">
+                    <li class="text-small">
+                      <strong  *ngIf="salediscount==0">T. Discount: {{price(totalcdiscount(selectedsale['productlist']))}}</strong>
+                      <strong  *ngIf="salediscount!=0">Discount: {{price(discount)}}</strong>
+                    </li>
+                    <li class="text-small" *ngIf="saletaxe==1"><strong>Taxe: {{price(taxe)}}</strong></li>
+                    <li class="text-small"><strong>Grand Total: {{price(valuechangeof(selectedsale['productlist']))}}</strong></li>
+                    <li class="text-small"><strong>Amount Paid: {{price(paid)}}</strong></li>
+                    <li class="text-small"><strong>Amount Due: {{price(due(selectedsale['productlist']))}}</strong></li>
+                    <li class="text-small"><strong>Balance: {{price(balance(selectedsale['productlist']))}}</strong></li>
+                  </ul>
+                </blockquote>
+                  <br><br>
+                  <footer class="blockquote-footer">
+                  <span class="text-left text-small">Authorised Signature:</span>  
+                  </footer> 
+                  <br><br> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="modal.close()">Submit</button>
+      <button type="button" class="btn btn-light" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+    </div> -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" 
+      placement="bottom" ngbTooltip="Print payment"
+      >Print sale</button><!-- onSubmit($event) -->
+      <button type="button" class="btn btn-light" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal Ends -->

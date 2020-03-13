@@ -1,0 +1,465 @@
+<div class="page-header">
+    <h3 class="page-title">
+      Accordions
+    </h3>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <!-- <li class="breadcrumb-item"><a href="javascript:;">UI Elements</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Accordions</li> -->
+        <li class="breadcrumb-item"><a href="javascript:;">Sale-management</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Sale</a></li>
+        <li class="breadcrumb-item active" aria-current="page">New Sale</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+
+
+    <div class="col-lg-6 grid-margin stretch-card">
+        <div class="row">
+        <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Solid header accordion</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="form-label" for="client"> <code>Client</code> </label>
+                    <input type="text" class="form-control " [(ngModel)]="client" 
+                    #pclient="ngModel"  name="client" id="client"
+                    style="text-align: left; width: 100px;"/>
+                    <div class="alert alert-danger class.has-error"
+                      *ngIf="pclient.invalid && pclient.touched"><!-- to display error validation valideemail-->
+                      {{requiredclientname}}
+                    </div>
+
+                    <!-- <div *ngIf="submitted && client.errors" class="invalid-feedback">
+                      <div *ngIf="client.errors.required">
+                        {{requiredclientname}}                               
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="form-label" for="datesale"> <code>Date Sale</code> </label>
+                    <input type="date" class=" "  #mydate [value]="datesale | date:'yyyy-MM-dd'"
+                    (input)="datesale=parseDate($event.target.value)"
+                    name="datesale" id="datesale" ngbDatepicker
+                    [ngClass]="{ 'is-invalid': submitted && datesale.errors }"
+                    /><!-- style="text-align: left; width: 100px;" -->
+                    <div *ngIf="submitted && datesale.errors" class="invalid-feedback">
+                      <div *ngIf="datesale.errors.required">
+                        {{requiredsaledate}}                               
+                      </div>
+                    </div>                 
+                  </div><!-- #datesale="ngModel"  -->
+                </div>
+              </div>
+              <div class="mx-0"><!-- mt-4 -->
+                <!--<form > [formGroup]="saleproductForm" -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered mx-0 table-hover"><!-- table-striped -->
+                                <thead>
+                                  <tr>
+                                    <th>
+                                      #
+                                    </th>                                
+                                    <th>
+                                      Product
+                                    </th>
+                                    <th>
+                                      Quantiy
+                                    </th>
+                                    <!-- <th>
+                                      Unit
+                                    </th> -->
+                                    <th>
+                                      Price
+                                    </th>
+                                    <th>
+                                      Subtotal
+                                    </th>
+                                    <th>
+                                    
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody *ngFor="let product of saleproductList; index as i; trackBy: trackByFn">
+                                  <tr class="" ><!--[formGroup]="product" styleTHead(i) -->
+                                    <td>
+                                      {{i}}
+                                    </td>
+                                    <td class="" style="text-align: left; width: 5%;"><!-- form-group -->
+                                      {{product.name}}
+                                      <!-- <label>mm
+                                        <input type="hidden" class="form-control" formControlName="fname" 
+                                        readOnly style="text-align: left; width: 100px;"/>
+                                      </label> -->
+                                    </td>
+                                    <td style="text-align: left; width: 5%;"><!--  -->
+                                        <!-- <div class="col-sm-5"> -->
+                                          <input type="number" class="form-control form_input" [(ngModel)]="saleproductList[i]['quantity']" 
+                                          #quantity="ngModel" name="quantity" (change)="valuechangeTable($event, quantity, i)"
+                                          style="text-align: left; width: 100px;"/>
+                                        <!-- </div>    -->
+                                        <!--   -->
+                                      <!-- <div class="col-sm-12"> -->
+                                        <!-- <input type="number" class="form-control btn-primary" name="quantity" formControlName="quantity"
+                                        style="text-align: left; width: 100px;"/>
+                                        <span class="text-danger" *ngIf="product.get('quantity').touched && 
+                                        product.get('quantity').invalid">
+                                          quantity is required
+                                        </span> -->
+                                      <!-- </div> -->
+                                    </td>
+                                    <!-- <td>
+                                      Carton
+                                    </td> -->
+                                    <td ><!-- class="form-group" style="text-align: left; width: 5%;" -->
+                                      <!-- <input type="number" class="form-control btn-primary" name="price" formControlName="price"
+                                        style="text-align: left; width: 100px;"/>
+                                        <span class="text-danger" *ngIf="product.get('price').touched && 
+                                        product.get('price').invalid">
+                                        price is required
+                                        </span> -->
+                                        <input type="number" class="form-control form_input" [(ngModel)]="saleproductList[i]['delivery_price']" 
+                                          #delivery_price="ngModel" name="delivery_price" (change)="valuechangeTable($event, delivery_price, i)"
+                                          style="text-align: left; width: 100px;"/>
+                                        <!-- {{price(product['delivery_price'])}} -->
+                                    </td>
+                                    <td>
+                                        {{ getAmount(product) }}
+                                    </td>
+                                    <td>
+                                        <!-- <a class="nav-link" routerLink="delivery-settings" routerLinkActive="active" #register="routerLinkActive"> 
+                                            <i class="remove mdi mdi-close" (click)="removeProducta(i)"></i>
+                                      </a> -->
+                                      <span class="small btn btn btn-sm text-left px-0" (click)="removeProducta(i)">
+                                        <i class="remove mdi mdi-close"></i>
+                                      </span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                        </table>
+                    </div>
+               <!--  </form>  -->
+                <!-- <button (click)="addProduct()" class="btn btn primary mr-5">
+                  Add new product
+                </button>               -->
+                <br>
+                <!-- panel for cart total -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-warning"><!-- panel-primary -->
+                        <!-- <div class="panel-heading text-left">
+                            CART TOTAL
+                        </div> -->
+                        <div class="row">
+                            <div class="col"><hr></div>
+                            <div class="col-auto">TOTAL Sale</div>    
+                            <div class="col"><hr></div>    
+                        </div>
+                        
+                        <div class="panel-body" >
+                            <div class="row"> <!-- row for subtotal: 2 columns [subtotal, amount] -->
+                                <!-- <div class="col-sm-3">                  
+                                <p class="text-md-left"><strong>Items</strong></p>
+                                </div>                
+                                <div class="col-sm-3">
+                                    <p class="text-md-left">5</p></div> --><!-- {{getSubTotalPrice()}} -->
+                                <div class="col-sm-6">                  
+                                    <p class="text-left"><strong>Subtotal</strong></p>
+                                </div>                
+                                <div class="col-sm-6">
+                                    <p class="text-left">{{price(subTotal())}}</p>
+                                </div><!-- {{getSubTotalPrice()}} -->
+                            </div>
+                            <div class="row"> <!-- row for subtotal: 2 columns [discount, amount] -->
+                                <div class="col-sm-6">                  
+                                <p class="text-left"><strong>Discount</strong></p>
+                                </div>                
+                                <div class="col-sm-6">
+                                    <p class="text-left">
+                                      <input type="number" class="form-control form_input" 
+                                      #it="ngModel" [(ngModel)]="discount" name="discount" (change)="valuechangeof()"
+                                      style="text-align: left; width: 100px;"/>
+                                    </p>
+                                </div>
+                                <div class="col-sm-6">                  
+                                    <p class="text-left"><strong>Taxe(%)</strong></p>
+                                </div>                
+                                <div class="col-sm-6">
+                                    <p class="text-left">
+                                      <input type="number" class="form-control form_input" [(ngModel)]="taxe" 
+                                      #dt="ngModel" name="taxe" (change)="valuechangeof()"
+                                      style="text-align: left; width: 100px;"/>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- <hr class=""> -->
+                            <div class="row "> <!-- row for total in the cart: 2 columns [total, amount--> <!-- another row may came before if coupon is applied -->
+                                <div class="col-sm-6">
+                                    
+                                <p class="text-left"><strong>Total</strong></p>
+                                </div>
+                                <div class="col-sm-6">
+                                <p class="text-left">{{price(valuechangeof())}}</p><!-- {{getTotalPriceWithDiscount()}} -->
+                                </div>
+                            </div>        
+                        </div>
+                                
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="container-fluid panel-warning"><!-- panel-primary -->
+                            <!-- <div class="panel-heading text-left">
+                                Payment
+                            </div> -->
+                            <div class="row">
+                                <div class="col"><hr></div>
+                                <div class="col-auto">Payment</div>    
+                                <div class="col"><hr></div>    
+                            </div>
+                            
+                            <div class="panel-body" >
+                                <div class="row"> <!-- row for subtotal: 2 columns [subtotal, amount] -->
+                                    <div class="col-sm-6">                  
+                                    <p class="text-left small"><strong>Paid</strong></p>
+                                    </div>                
+                                    <div class="col-sm-6">
+                                        <p class="text-left small">
+                                            <input type="number" class="form-control form_input" 
+                                            #pd="ngModel" [(ngModel)]="paid" name="paid" (change)="valuechangeof()"
+                                            style="text-align: left; width: 100px;"/>
+                                        </p>
+                                      </div><!-- {{getSubTotalPrice()}} -->                                    
+                                </div>
+                                <div class="row"> <!-- row for subtotal: 2 columns [discount, amount] -->
+                                    <div class="col-sm-6">                  
+                                    <p class="text-left"><strong>Due</strong></p>
+                                    </div>                
+                                    <div class="col-sm-6">
+                                        <p class="text-left">{{price(due())}}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row"> <!-- row for total in the cart: 2 columns [total, amount--> <!-- another row may came before if coupon is applied -->
+                                    <div class="col-sm-6">
+                                        
+                                    <p class="text-left"><strong>Balance</strong></p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                    <p class="text-left">{{price(balance())}}</p><!-- {{getTotalPriceWithDiscount()}} -->
+                                    </div>
+                                </div>        
+                            </div>
+                                    
+                            </div>
+                            <!-- row for button Proceed to checkout --> 
+                        <!-- <a [routerLink]="['/checkout']">
+                            <div class="btn btn-primary btn-block btn-sm">Pay Now</div>
+                        </a> -->
+                        <!-- <span class="btn btn-primary btn-block btn-sm"
+                        placement="bottom" ngbTooltip="Make payment" (click)="openModal(exampleModalContent)"                        
+                        [attr.disabled]="'true'"                    >
+                          Pay Now
+                        </span> -->
+                        <button class="btn btn-primary btn-block btn-sm"
+                        placement="bottom" ngbTooltip="Make payment" (click)="openModal(exampleModalContent)"                        
+                        [disabled]="!(client && datesale && saleproductList.length>0)">
+                          Pay Now
+                        </button>
+
+
+                        <!-- Modal starts -->
+                        <!-- <div class="text-center">
+                          <button type="button" class="btn btn-primary btn-sm" (click)="openModal(exampleModalContent)">Click for demo<i class="mdi mdi-arrow-right-circle-outline ml-1"></i></button>
+                        </div> -->
+
+                        <ng-template class="modal fade" #exampleModalContent let-modal>
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel"></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">                         
+
+                            <div class="col-lg-12 grid-margin stretch-card">
+                              <div class="card">
+                                <div class="card-body">
+                                  <h4 class="card-title text-center">St. Joseph Hardware Store</h4>
+                                  <h4 class="card-title text-center">Preview Receipt</h4>
+                                  <div class="row">
+                                    <div class="col-sm-2">                  
+                                      <span class="brand-logo-mini"><img src="../../../assets/images/logo-mini.svg" alt="logo"/>
+                                      </span>
+                                      </div>                
+                                      <div class="col-sm-6">
+                                        <div class="row"> 
+                                          Payment detail:                                         
+                                        </div>
+                                        <div class="row">
+                                          Client: {{client}}                                        
+                                        </div>
+                                        <div class="row">                                          
+                                          Payment type: Cash
+                                        </div>                                          
+                                      </div>
+                                      <div class="col-sm-4">
+                                        <div class="row"> 
+                                          Invoice Number:                                         
+                                        </div>
+                                        <div class="row">
+                                          Date: 
+                                        </div>
+                                        <div class="row">                                          
+                                          Time:
+                                        </div>
+                                        <div class="row">                                          
+                                          <span class="text-left text-small">Cashier: {{cashier}}</span>
+                                        </div>
+                                        <div class="row">
+                                          <span class="text-left text-small">Tel:</span>
+                                        </div>
+                                        
+                                      </div>
+                                  </div>
+                                  
+                                  <p class="card-description">
+                                    <!-- Add class <code>.table-hover</code> -->
+                                  </p>
+                                  <div class="table-responsive">
+                                    <table class="table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th>#</th>
+                                          <th>Product</th>
+                                          <th>Qty</th>
+                                          <th>Unit</th>
+                                          <th>Price</th>
+                                          <!-- <th>Discount</th> -->
+                                          <!-- <th>Taxe</th> -->
+                                          <th>Total</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody *ngFor="let product of saleproductList; index as i; trackBy: trackByFn">
+                                        <tr>
+                                          <td>{{i}}</td>
+                                          <td>{{product.name}}</td>
+                                          <td class="text-danger"> {{product.quantity}}</td>
+                                          <td></td> <!-- unit -->
+                                          <td>{{product.delivery_price}}</td>
+                                          <!-- <td></td> discount -->
+                                          <td>{{ getAmount(product) }}</td> <!-- total -->
+                                        </tr>
+                                      </tbody>
+                                    <tfoot class="thead-dark">
+                                      <tr>
+                                        <th>Total</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>{{price(subtotal)}}</th>
+                                      </tr>
+                                    </tfoot>
+                                    </table>
+                                  </div>
+                                </div>
+                                <div class="card-footer">
+                                  <div class="row">
+                                    <div class="col-sm-6">                  
+                                      <p class="text-left text-small"><strong>Amount in words: {{currencysymbol}} {{convertNumberToWords(valuechangeof())}}</strong></p>
+                                      <div class="row">
+                                        <div class="col"><hr></div>
+                                        <div class="col-auto"></div>    
+                                        <div class="col"><hr></div>    
+                                    </div>
+                                      
+                                    </div>                
+                                    <div class="col-sm-6">
+                                      <blockquote class="blockquote blockquote-primary">
+                                      <ul class="list-ticked">
+                                        <li class="text-small"><strong>Discount: {{price(discount)}}</strong></li>
+                                        <li class="text-small"><strong>Taxe: {{price(taxe)}}</strong></li>
+                                        <li class="text-small"><strong>Grand Total: {{price(valuechangeof())}}</strong></li>
+                                        <li class="text-small"><strong>Amount Paid: {{price(paid)}}</strong></li>
+                                        <li class="text-small"><strong>Amount Due: {{price(due())}}</strong></li>
+                                        <li class="text-small"><strong>Balance: {{price(balance())}}</strong></li>
+                                      </ul>
+                                    </blockquote>
+                                      <br><br>
+                                      <footer class="blockquote-footer">
+                                      <span class="text-left text-small">Authorised Signature:</span>  
+                                      </footer> 
+                                      <br><br>                                   
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                          </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-success" 
+                              placement="bottom" ngbTooltip="Confirm payment"
+                              (click)="onSubmit($event)">Submit sale</button>
+                              <button type="button" class="btn btn-light" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <!-- Modal Ends -->
+                    </div>
+                </div>
+                
+            </div>        
+            </div>
+       
+          </div>
+        </div>
+        
+      
+    </div>
+
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Multi colored accordion</h4>
+          <div class="row">
+            <div class="col-sm-12">
+              <ngb-pagination [collectionSize]="productlist.length" 
+              [pageSize]="2" 
+              [page]="1"
+              [maxSize]="7"
+              [rotate]="true"
+              [boundaryLinks]="true"
+              (pageChange)="loadPage($event)"
+              aria-label="Default pagination" 
+              class="pagination-separated pagination-danger">
+              </ngb-pagination>
+            </div>
+            <div class="col-md-4 mx-0" *ngFor="let product of productlist; index as i; trackBy: trackByFn"
+            >   <!--  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize -->           
+                <blockquote class="blockquote blockquote-primary px-1 mx-0 py-0">
+                    <img src="../../../assets/images/dashboard/img_2.jpg" class="mb-1 mw-100 w-100 rounded" alt="image">
+                    <span class="small btn btn btn-sm text-left px-0" (click)="addArticleToList(product)">
+                        <i class="mdi mdi-arrow-left-circle-outline"></i>
+                        {{product.name}}</span>
+                    <!-- <button type="button" class="btn btn-primary btn-sm" (click)="openModal(exampleModalContent)">
+                        {{product.name}}
+                        <i class="mdi mdi-arrow-left-circle-outline ml-1"></i>
+                    </button> -->
+                </blockquote>
+                
+            </div>
+            
+
+          </div>
+                  
+        </div>
+      </div>
+    </div>
+  </div>

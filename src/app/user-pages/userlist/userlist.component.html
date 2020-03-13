@@ -1,0 +1,184 @@
+<div class="page-header">
+    <h3 class="page-title">
+      User Management | 
+      <a class="" routerLink="usernew" routerLinkActive="active" #usernew="routerLinkActive"> 
+        <i class="mdi mdi-account-plus menu-icon"></i>
+      </a>
+    </h3>
+    <div class="search-field d-none d-md-block">
+      <form class="d-flex align-items-center h-100" action="#">
+        <div class="input-group">
+          <div class="input-group-prepend bg-transparent">
+            <i class="input-group-text border-0 mdi mdi-magnify"></i>
+          </div>
+          <input type="text" class="form-control bg-primary border-0" placeholder="Search users">
+        </div>
+      </form>
+    </div>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:;">Users</a></li>
+        <li class="breadcrumb-item active" aria-current="page">User List</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <!-- <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Basic Table</h4>
+          <p class="card-description">
+            Add class <code>.table</code>
+          </p>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Profile</th>
+                  <th>VatNo.</th>
+                  <th>Created</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jacob</td>
+                  <td>53275531</td>
+                  <td>12 May 2017</td>
+                  <td><label class="badge badge-danger">Pending</label></td>
+                </tr>
+                <tr>
+                  <td>Messsy</td>
+                  <td>53275532</td>
+                  <td>15 May 2017</td>
+                  <td><label class="badge badge-warning">In progress</label></td>
+                </tr>
+                <tr>
+                  <td>John</td>
+                  <td>53275533</td>
+                  <td>14 May 2017</td>
+                  <td><label class="badge badge-info">Fixed</label></td>
+                </tr>
+                <tr>
+                  <td>Peter</td>
+                  <td>53275534</td>
+                  <td>16 May 2017</td>
+                  <td><label class="badge badge-success">Completed</label></td>
+                </tr>
+                <tr>
+                  <td>Dave</td>
+                  <td>53275535</td>
+                  <td>20 May 2017</td>
+                  <td><label class="badge badge-warning">In progress</label></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  
+   
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">List of users of the System</h4>
+          <!-- <p class="card-description">
+            Add class <code>.table-striped</code>
+          </p> -->
+          <span class="d-flex justify-content-end pagination-danger">
+            <code>
+            <i class="mdi mdi-autorenew"></i>
+          </code>
+            
+            <!-- <ngb-pagination [collectionSize]="12" 
+              [pageSize]="2" 
+              [page]="1"
+              [maxSize]="7"
+              [rotate]="true"
+              [boundaryLinks]="true"
+              (pageChange)="loadPage($event)"
+              aria-label="Default pagination" 
+              class="pagination-separated pagination-danger">
+              </ngb-pagination> -->
+              <!-- <ngb-pagination [collectionSize]="40" 
+              [pageSize]="10" 
+              [page]="1" 
+              aria-label="Default pagination" 
+              class="d-flex justify-content-end pagination-danger">
+              </ngb-pagination> -->
+          </span>
+          <div class="table-responsive">
+            <table class="table table-striped"><!--  table-hover -->
+              <thead>
+                <tr>
+                  <th>
+                    #
+                  </th>
+                  <th>
+                    User
+                  </th>
+                  <th>
+                    User name
+                  </th>
+                  <th>
+                    Email
+                  </th>
+                  <th>
+                    created
+                  </th>
+                  <th>
+                    Status
+                  </th>
+                  <th>
+                    
+                  </th>
+                  <th>
+                    -
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of userlist; index as i; trackBy: trackByFn">
+                  <td>
+                    {{i}}
+                  </td>
+                  <td class="py-1">
+                    <img src="{{user['profileImage']}}" alt="image" *ngIf="user['profileImage']"/>
+                    <img src="assets/images/faces/default-face.jpg" alt="image" *ngIf="!user['profileImage']"/>
+                  </td>
+                  <td>
+                    {{user['firstName']}} {{user['lastName']}}
+                  </td>
+                  <td><label class="badge badge-success">{{user.email}} </label>
+                  </td>
+                  <!-- <td>
+                    $ 77.99
+                  </td> -->
+                  <td>
+                    {{parseDate(user['datecreate'])| date:'dd/MM/yyyy'}}
+                  </td>
+                  <td><label class="badge badge-primary">{{user['status']}} </label></td>                  
+                  <td>
+                    <a class="nav-link" [routerLink]="['user-detail', user['_id']]" routerLinkActive="active" #register="routerLinkActive"> 
+                        <i class="mdi mdi-border-color menu-icon"></i>
+                      </a>
+                      
+                  </td>
+                  <td>
+                    <a class="nav-link" routerLink="user-pages/usersettings" routerLinkActive="active" #register="routerLinkActive"> 
+                        <i class="mdi mdi-account-remove  menu-icon"></i>
+                      </a>
+                  </td>
+                  
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+  </div>

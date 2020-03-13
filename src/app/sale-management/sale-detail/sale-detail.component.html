@@ -1,0 +1,153 @@
+
+
+<!-- <button class="btn btn-primary btn-block btn-sm"
+                    placement="bottom" ngbTooltip="Make payment" (click)="openModal(exampleModalContent)"                        
+                    [disabled]="!(client && datesale && saleproductList.length>0 && paid !=0 && checkConsistencyListGrid()===0)">
+                      Pay Now
+                    </button> -->
+
+                    <!-- Modal starts -->
+
+                    <ng-template class="modal fade" #exampleModalContent let-modal>
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">                         
+  
+                          <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card">
+                              <div class="card-body">
+                                <h4 class="card-title text-center">St. Joseph Hardware Store</h4>
+                                <h4 class="card-title text-center">Preview Receipt</h4>
+                                <div class="row">
+                                  <div class="col-sm-2">                  
+                                    <span class="brand-logo-mini"><img src="../../../assets/images/logo-mini.svg" alt="logo"/>
+                                    </span>
+                                    </div>                
+                                    <div class="col-sm-6">
+                                      <div class="row"> 
+                                        Payment detail:                                         
+                                      </div>
+                                      <div class="row">
+                                        Client: {{saleproductList['client']['cname']['fname']}}                                        
+                                      </div>
+                                      <div class="row">                                          
+                                        Payment type: Cash
+                                      </div>                                          
+                                    </div>
+                                    <div class="col-sm-4">
+                                      <div class="row"> 
+                                        Invoice Number:                                         
+                                      </div>
+                                      <div class="row">
+                                        Date: 23.02.2020
+                                      </div>
+                                      <div class="row">                                          
+                                        Time:3:54 pm
+                                      </div>
+                                      <div class="row">                                          
+                                        <span class="text-left text-small">Cashier: {{cashier}}</span>
+                                      </div>
+                                      <div class="row">
+                                        <span class="text-left text-small">Tel:1234567</span>
+                                      </div>
+                                      
+                                    </div>
+                                </div>
+                                
+                                <p class="card-description">
+                                  <!-- Add class <code>.table-hover</code> -->
+                                </p>
+                                <div class="table-responsive">
+                                  <table class="table table-hover">
+                                    <thead>
+                                      <tr>
+                                        <th>#</th>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>Unit</th>
+                                        <th>Price</th>
+                                        <th *ngIf="salediscount==0">Discount</th>
+                                        <!-- <th>Taxe</th> -->
+                                        <th>Total</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody *ngFor="let product of saleproductList['productlist']; index as i; trackBy: trackByFn">
+                                      <tr>
+                                        <td>{{i}}</td>
+                                        <td>{{product.name}}</td>
+                                        <td class="text-danger"> {{product.quantity}}</td>
+                                        <td>{{product.unitproduct[0]['abs']}}</td> <!-- unit -->
+                                        <td>{{product.sale_price}}</td><!-- delivery_price -->
+                                        <td *ngIf="salediscount==0">{{product['discountline']}}</td>
+                                        <td>{{ getAmount(product) }}</td> <!-- total -->
+                                      </tr>
+                                    </tbody>
+                                  <tfoot class="thead-dark">
+                                    <tr>
+                                      <th>Total</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                      <th *ngIf="salediscount==0"></th>
+                                      <th>{{price(subtotal)}}</th>
+                                    </tr>
+                                  </tfoot>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="card-footer">
+                                <div class="row">
+                                  <div class="col-sm-6">                  
+                                    <p class="text-left text-small"><strong>Amount in words: {{currencysymbol}} {{convertNumberToWords(valuechangeof())}}</strong></p>
+                                    <div class="row">
+                                      <div class="col"><hr></div>
+                                      <div class="col-auto"></div>    
+                                      <div class="col"><hr></div>    
+                                  </div>
+                                    
+                                  </div>                
+                                  <div class="col-sm-6">
+                                    <blockquote class="blockquote blockquote-primary">
+                                    <ul class="list-ticked">
+                                      <li class="text-small">
+                                        <strong  *ngIf="salediscount==0">T. Discount: {{price(totalcdiscount())}}</strong>
+                                        <strong  *ngIf="salediscount!=0">Discount: {{price(discount)}}</strong>
+                                      </li>
+                                      <li class="text-small" *ngIf="saletaxe==1"><strong>Taxe: {{price(taxe)}}</strong></li>
+                                      <li class="text-small"><strong>Grand Total: {{price(valuechangeof())}}</strong></li>
+                                      <li class="text-small"><strong>Amount Paid: {{price(paid)}}</strong></li>
+                                      <li class="text-small"><strong>Amount Due: {{price(due())}}</strong></li>
+                                      <li class="text-small"><strong>Balance: {{price(balance())}}</strong></li>
+                                    </ul>
+                                  </blockquote>
+                                    <br><br>
+                                    <footer class="blockquote-footer">
+                                    <span class="text-left text-small">Authorised Signature:</span>  
+                                    </footer> 
+                                    <br><br>                                   
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-success" 
+                            placement="bottom" ngbTooltip="Print payment"
+                            >Print sale</button><!-- onSubmit($event) -->
+                            <button type="button" class="btn btn-light" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <!-- Modal Ends -->
+  
+
+
+                      
